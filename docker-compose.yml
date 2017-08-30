@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+    postgresql:
+        image: library/postgres
+        ports:
+            - "5432:5432"
+        environment:
+            - DEBUG=false
+            - POSTGRES_PASSWORD=example
+            - POSTGRES_DB=typescriptapp
