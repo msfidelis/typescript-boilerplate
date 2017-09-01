@@ -8,7 +8,7 @@ module.exports = {
 	host: '0.0.0.0',
 	serverPort: process.env.PORT || 3000, 
 	pgPort: 5432,
-	dbURL: 'postgres://postgres:pgroot@localhost:5432/api',
+	dbURL: 'postgres://postgres:example@0.0.0.0:5432/api',
 	secret: 'S3cr3t' 
 
 };

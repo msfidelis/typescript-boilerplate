@@ -4,7 +4,7 @@ var fs        = require('fs');
 var path      = require('path');
 var Sequelize = require('sequelize');
 var basename  = path.basename(module.filename);
-var config    = require(__dirname + '/../config/env/config')();
+var config    = require(__dirname + '/../config/config')();
 var env       = config.env || 'development';
 var db        = {};
 
