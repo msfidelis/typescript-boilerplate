@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import * as HTTPStatus from 'http-status';
 
 class UserController {
 
@@ -7,31 +8,31 @@ class UserController {
     }
 
     createUser(req: Request, res: Response) {
-        res.status(201).json({
+        res.status(HTTPStatus.CREATED).json({
             msg : "OK"
         })
     }
 
     getAll(req: Request, res: Response) {
-        res.status(200).json({
+        res.status(HTTPStatus.OK).json({
             msg : "OK"
         })
     }
 
     getById(req: Request, res: Response) {
-        res.status(200).json({
+        res.status(HTTPStatus.OK).json({
             msg : "OK"
         })
     }
 
     updateUser(req: Request, res: Response) {
-        res.status(200).json({
+        res.status(HTTPStatus.OK).json({
             msg : "OK"
         })
     }
 
     deleteUser(req: Request, res: Response) {
-        res.status(200).json({
+        res.status(HTTPStatus.OK).json({
             msg : "OK"
         })
     }
