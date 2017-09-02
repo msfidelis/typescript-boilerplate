@@ -34,7 +34,7 @@ describe('Testes de integração', () => {
 	});
 
 
-	describe('POST /api/users/new', () => {
+	describe('POST /api/users/create', () => {
 
 		it("Deve criar um usuário", done => {
 
@@ -43,7 +43,7 @@ describe('Testes de integração', () => {
 			};
 
 			request(app)
-				.post('/api/users/new')
+				.post('/api/users/create')
 				.send(user)
 				.end((error, res) => {
 					expect(res.status).to.equal(201);
@@ -54,7 +54,7 @@ describe('Testes de integração', () => {
 
 	});
 
-	describe('PUT /api/users/:id/edit', () => {
+	describe('PUT /api/users/:id/update', () => {
 
 		it("Deve atualizar um usuário", done => {
 
@@ -63,7 +63,7 @@ describe('Testes de integração', () => {
 			};
 
 			request(app)
-				.put(`/api/users/${1}/edit`)
+				.put(`/api/users/${1}/update`)
 				.send(user)
 				.end((error, res) => {
 					expect(res.status).to.equal(200);
@@ -75,12 +75,12 @@ describe('Testes de integração', () => {
 	});
 
 
-	describe('DELETE /api/users/:id', () => {
+	describe('DELETE /api/users/:id/destroy', () => {
 
 		it("Deve deletar um usuário", done => {
 
 			request(app)
-				.delete(`/api/users/${1}`)
+				.delete(`/api/users/${1}/destroy`)
 				.end((error, res) => {
 					expect(res.status).to.equal(200);
 					done(error);

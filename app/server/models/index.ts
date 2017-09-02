@@ -14,17 +14,16 @@ if (config.dbURL) {
   var sequelize = new Sequelize(config.db, config.username, config.password);
 }
 
-fs
-  .readdirSync(__dirname)
-  .filter(function(file) {
+fs.readdirSync(__dirname)
+  .filter((file) => {
     return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
   })
-  .forEach(function(file) {
+  .forEach((file) => {
     var model = sequelize['import'](path.join(__dirname, file));
     db[model.name] = model;
   });
 
-Object.keys(db).forEach(function(modelName) {
+Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
   }
