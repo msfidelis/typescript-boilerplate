@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
 import * as HTTPStatus from 'http-status';
 
+/**
+ * UserController
+ */
 class UserController {
 
-    constructor() {
-
-    }
+    constructor() {}
 
     createUser(req: Request, res: Response) {
         res.status(HTTPStatus.CREATED).json({

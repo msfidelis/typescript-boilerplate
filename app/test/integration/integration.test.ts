@@ -109,11 +109,12 @@ describe('Testes de integração', () => {
 		it("Deve atualizar um usuário", done => {
 
 			const user = {
-				name: 'Teste Update'
+				name: 'Teste Update',
+				email: 'update@update.com'
 			};
 
 			request(app)
-				.put(`/api/users/${1}/update`)
+				.put(`/api/users/${userDefault.id}/update`)
 				.send(user)
 				.end((error, res) => {
 					expect(res.status).to.equal(HTTPStatus.OK);
@@ -130,7 +131,7 @@ describe('Testes de integração', () => {
 		it("Deve deletar um usuário", done => {
 
 			request(app)
-				.delete(`/api/users/${1}/destroy`)
+				.delete(`/api/users/${userDefault.id}/destroy`)
 				.end((error, res) => {
 					expect(res.status).to.equal(HTTPStatus.OK);
 					done(error);
