@@ -24,12 +24,12 @@ describe('Testes de integração', () => {
 		password: "default"
 	}
 
-	beforeEach((done) => {
+	before((done) => {
 
 		UserModel.User.destroy({
 			where: {}
 		}).then(() => {
-			return UserModel.model.create(userDefault);
+			return UserModel.User.create(userDefault);
 		}).then(user => {
 			UserModel.User.create(userTest)
 			.then(() => {
