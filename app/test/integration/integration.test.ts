@@ -47,9 +47,9 @@ describe('Testes de integração', () => {
 				.get('/api/users/all')
 				.end((error, res) => {
 					expect(res.status).to.equal(HTTPStatus.OK);
-					expect(res.payload).to.be.an('array');
-					expect(res.payload[0].name).to.be.equal(userDefault.name)
-					expect(res.payload[0].email).to.be.equal(userDefault.email)
+					expect(res.body.payload).to.be.an('array');
+					expect(res.body.payload[0].name).to.be.equal(userDefault.name)
+					expect(res.body.payload[0].email).to.be.equal(userDefault.email)
 					done(error);
 				});
 
