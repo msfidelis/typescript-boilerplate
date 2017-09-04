@@ -3,12 +3,25 @@ import User from '../../server/modules/User/service';
 
 describe('Testes Unitários do Controller', () => {
 
+	const config = require('../../server/config/config');
+	const UserModel = require('../../server/models');
+
+	before((done) => {
+		
+		UserModel.User.destroy({
+			where: {}
+		}).then(() => {
+			done();
+		})
+		
+	});
+
 	describe('[C]reate', () => {
 
 		it('Deve criar um novo usuário', () => {
 
 			const novoUsuario = {
-				id: 191, 
+				id: 1, 
 				name: 'Novo Usuário',
 				email: 'email@email.com',
 				password: '1234'
@@ -41,7 +54,7 @@ describe('Testes Unitários do Controller', () => {
 
 		it('Deve retornar um registro baseado no ID passado', () => {
 			const user = new User();
-			return user.getById(190).then(data => {
+			return user.getById(1).then(data => {
 				expect(data).to.have.all.keys(
 					['email', 'id', 'name', 'password']
 				);
