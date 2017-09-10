@@ -1,5 +1,7 @@
-import { app, request, expect } from './config/helpers';
 import * as HTTPStatus from 'http-status';
+import * as jwt from 'jwt-simple';
+
+import { app, request, expect } from './config/helpers';
 
 describe('Testes de integração', () => {
 
@@ -9,6 +11,7 @@ describe('Testes de integração', () => {
 	const UserModel = require('../../server/models');
 
 	let id;
+	let token;
 
 	const userTest = {
 		id: 100, 
@@ -33,8 +36,17 @@ describe('Testes de integração', () => {
 		}).then(user => {
 			UserModel.User.create(userTest)
 			.then(() => {
+				token = jwt.encode({id: user.id}, config.secret);
 				done();
 			});
+		});
+
+	});
+
+	describe('POST /api/token', () => {
+
+		it("Deve retornar um Token", done => {
+
 		});
 
 	});
