@@ -5,41 +5,45 @@ import server from './server';
 
 const config = require('./config/config')();
 
-export default function AuthConfig() {
+class Auth {
 
-    const UserService = new User();
+    config() {
 
-    let opts = {
-        secretOrKey: config.secret,
-        jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('jwt')
-    };
+        const UserService = new User();
+        
+        let opts = {
+            secretOrKey: config.secret,
+            jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('jwt')
+        };
 
-    passport.use(new Strategy(opts, (jwtPayload, done) => {
-        UserService
-            .getById(jwtPayload.id)
-            .then(user => {
-
-                if (user) {
-                    return done(null, {
-                        id: user.id, 
-                        email: user.email
-                    });
-                } else {
-                    return done(null, false);
-                }
-            })
-            .catch(error => {
-                done(error, null);
-            })
-    }));
-
-    return {
-        initialize: () => {
-            return passport.initialize();
-        }, 
-        authenticate: () => {
-            return passport.authenticate('jwt', {session: false});
+        passport.use(new Strategy(opts, (jwtPayload, done) => {
+            UserService
+                .getById(jwtPayload.id)
+                .then(user => {
+    
+                    if (user) {
+                        return done(null, {
+                            id: user.id, 
+                            email: user.email
+                        });
+                    } else {
+                        return done(null, false);
+                    }
+                })
+                .catch(error => {
+                    done(error, null);
+                })
+        }));
+    
+        return {
+            initialize: () =>  passport.initialize(),
+            authenticate: () => passport.authenticate('jwt', {session: false})
         }
+
     }
 
+
+
 };
+
+export default new Auth();
