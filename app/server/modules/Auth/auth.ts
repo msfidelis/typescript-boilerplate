@@ -6,8 +6,6 @@ import User from '../User/service';
 import authSuccess from '../../api/responses/authSuccess';
 import authFail from '../../api/responses/authFail';
 
-const UserService = new User();
-
 class TokenRoutes {
 
     auth(req: Request, res: Response) {
@@ -18,7 +16,7 @@ class TokenRoutes {
         }
         
         if (credentials.hasOwnProperty('email') && credentials.hasOwnProperty('password')) {
-            UserService
+            User
                 .getByEmail(credentials.email)
                 .then(_.partial(authSuccess, res, credentials))
                 .catch(_.partial(authFail, req, res))
