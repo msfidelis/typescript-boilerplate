@@ -8,7 +8,6 @@ import TokenRoutes from  '../../modules/Auth/auth';
 class Routes {
 
 	private userRouter: UserRoutes;
-	private tokenRouter;
 
 	/**
 	 * Routes Constructor
@@ -17,7 +16,6 @@ class Routes {
 	constructor() {
 		//Routers
 		this.userRouter = new UserRoutes();
-		this.tokenRouter = new TokenRoutes();
 	}
 
 	/**
@@ -27,7 +25,7 @@ class Routes {
 	initRoutes(app: Application, auth: any) {
 
 		//Auth
-		app.route('/api/token').post(this.tokenRouter.auth);
+		app.route('/api/token').post(TokenRoutes.auth);
 
 		//Users
 		app.route('/api/users/all').all(auth.config().authenticate()).get(this.userRouter.index);
