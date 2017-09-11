@@ -1,7 +1,6 @@
 import {Request, Response} from 'express';
 import * as jwt from 'jwt-simple';
 import * as HTTPStatus from 'http-status';
-import * as passport from 'passport';
 
 const config = require('../../config/config')();
 

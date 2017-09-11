@@ -2,12 +2,13 @@ import * as HTTPStatus from 'http-status';
 import * as jwt from 'jwt-simple';
 
 import { app, request, expect } from './config/helpers';
+import * as passport from 'passport';
 
 describe('Testes de integração', () => {
 
 	'use strict';
 
-	const config = require('../../server/config/config');
+	const config = require('../../server/config/config')();
 	const UserModel = require('../../server/models');
 
 	let id;
@@ -46,7 +47,35 @@ describe('Testes de integração', () => {
 	describe('POST /api/token', () => {
 
 		it("Deve retornar um Token", done => {
+			const credentials = {
+				email: userDefault.email,
+				password: userDefault.password
+			};
 
+			request(app)
+				.post('/api/token')
+				.send(credentials)
+				.end((error, res) => {
+					expect(res.status).to.equal(HTTPStatus.OK);
+					expect(res.body.token).to.equal(token);
+					done(error);
+				})
+		});
+
+
+		it("Não deve gerar um Token", done => {
+			const credentials = {
+				email: "invalid@email.com",
+				password: "invalidpassword"
+			};
+
+			request(app)
+				.post('/api/token')
+				.send(credentials)
+				.end((error, res) => {
+					expect(res.status).to.equal(HTTPStatus.UNAUTHORIZED);
+					done(error);
+				})
 		});
 
 	});
@@ -57,6 +86,8 @@ describe('Testes de integração', () => {
 
 			request(app)
 				.get('/api/users/all')
+				.set('Content-type', 'application/json')
+				.set('Authorization', `JWT ${token}`)
 				.end((error, res) => {
 					expect(res.status).to.equal(HTTPStatus.OK);
 					expect(res.body.payload).to.be.an('array');
@@ -75,6 +106,8 @@ describe('Testes de integração', () => {
 
 			request(app)
 				.get(`/api/users/${userDefault.id}`)
+				.set('Content-type', 'application/json')
+				.set('Authorization', `JWT ${token}`)
 				.end((error, res) => {
 					expect(res.status).to.equal(HTTPStatus.OK);
 					expect(res.body.payload.id).to.equal(userDefault.id)
@@ -103,6 +136,8 @@ describe('Testes de integração', () => {
 
 			request(app)
 				.post('/api/users/create')
+				.set('Content-type', 'application/json')
+				.set('Authorization', `JWT ${token}`)
 				.send(user)
 				.end((error, res) => {
 					expect(res.status).to.equal(HTTPStatus.CREATED);
@@ -127,6 +162,8 @@ describe('Testes de integração', () => {
 
 			request(app)
 				.put(`/api/users/${userDefault.id}/update`)
+				.set('Content-type', 'application/json')
+				.set('Authorization', `JWT ${token}`)
 				.send(user)
 				.end((error, res) => {
 					expect(res.status).to.equal(HTTPStatus.OK);
@@ -144,6 +181,8 @@ describe('Testes de integração', () => {
 
 			request(app)
 				.delete(`/api/users/${userDefault.id}/destroy`)
+				.set('Content-type', 'application/json')
+				.set('Authorization', `JWT ${token}`)
 				.end((error, res) => {
 					expect(res.status).to.equal(HTTPStatus.OK);
 					done(error);
