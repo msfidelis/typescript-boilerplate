@@ -5,6 +5,7 @@ import { Application } from 'express';
 
 import Routes from './routes/routes';
 import { errorHandlerApi } from './errorHandlerApi';
+import Responses from './responses/handler';
 import Auth from '../auth';
 
 /**
@@ -27,7 +28,7 @@ class Api {
 		this.express.use(morgan('dev'));
 		this.express.use(bodyParser.urlencoded({extended : true}));
 		this.express.use(bodyParser.json());
-		this.express.use(errorHandlerApi);
+		this.express.use(Responses.errorHandlerApi);
 		this.express.use(Auth.config().initialize());
 		this.router(this.express, Auth);
 	}

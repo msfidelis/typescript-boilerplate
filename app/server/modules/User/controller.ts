@@ -3,9 +3,7 @@ import * as HTTPStatus from 'http-status';
 import * as _ from 'lodash';
 
 import User from './service';
-import { onError, onBadRequest, onNotFound } from '../../api/responses/errorHandler';
-import { onSuccess, onCreate } from '../../api/responses/successHandler';
-import { dbErrorHandler } from '../../config/dbErrorHandler';
+import Responses from './../../api/responses/handler';
 
 /**
  * UserController
@@ -21,8 +19,8 @@ class UserController {
      */
     createUser(req: Request, res: Response) {
         User.create(req.body)
-        .then(_.partial(onCreate, res))
-        .catch(onError, res, `Erro ao criar o usuário`);
+        .then(_.partial(Responses.onCreate, res))
+        .catch(Responses.onError, res, `Erro ao criar o usuário`);
     }
 
     /**
@@ -32,8 +30,8 @@ class UserController {
      */
     getAll(req: Request, res: Response) {
         User.getAll()
-        .then(_.partial(onSuccess, res))
-        .catch(_.partial(onError, res, `Erro ao listar os usuários`));
+        .then(_.partial(Responses.onSuccess, res))
+        .catch(_.partial(Responses.onError, res, `Erro ao listar os usuários`));
     }
 
     /**
@@ -45,8 +43,8 @@ class UserController {
         const userId = parseInt(req.params.id);
 
         User.getById(userId)
-        .then(_.partial(onSuccess, res))
-        .catch(_.partial(onNotFound, res, `Usuário não encontrado`));
+        .then(_.partial(Responses.onSuccess, res))
+        .catch(_.partial(Responses.onNotFound, res, `Usuário não encontrado`));
     }
 
     /**
@@ -59,8 +57,8 @@ class UserController {
         const props = req.body;
 
         User.update(userId, props)
-        .then(_.partial(onSuccess, res))
-        .catch(_.partial(onError, res, `Erro ao atualizar o usuário`));
+        .then(_.partial(Responses.onSuccess, res))
+        .catch(_.partial(Responses.onError, res, `Erro ao atualizar o usuário`));
     }
     
     /**
@@ -72,8 +70,8 @@ class UserController {
         const userId = parseInt(req.params.id);
         
         User.delete(userId)
-        .then(_.partial(onSuccess, res))
-        .catch(_.partial(onError, res, `Não foi possível deletar o usuário`));
+        .then(_.partial(Responses.onSuccess, res))
+        .catch(_.partial(Responses.onError, res, `Não foi possível deletar o usuário`));
     }
 
 }
