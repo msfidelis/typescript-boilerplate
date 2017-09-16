@@ -16,7 +16,9 @@ class Responses {
      * @param data 
      */
     authFail(req: Request, res: Response) {
-        res.sendStatus(HTTPStatus.UNAUTHORIZED);
+        res.status(HTTPStatus.UNAUTHORIZED).json({
+            msg : "Unathorized", status: HTTPStatus.UNAUTHORIZED
+        });
     }
 
     /**
@@ -36,7 +38,9 @@ class Responses {
                 });
         
             } else {
-                res.sendStatus(HTTPStatus.UNAUTHORIZED);
+                res.status(HTTPStatus.UNAUTHORIZED).json({
+                    msg : "Unathorized", status: HTTPStatus.UNAUTHORIZED
+                });
             }
         }
 

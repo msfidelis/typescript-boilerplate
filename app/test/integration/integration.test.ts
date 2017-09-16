@@ -1,41 +1,58 @@
+'use strict';
+
 import * as HTTPStatus from 'http-status';
 import * as jwt from 'jwt-simple';
 
 import { app, request, expect } from './config/helpers';
 import * as passport from 'passport';
 
+const model = require('../../server/models');
+const config = require('../../server/config/config')();
+
+const userTest = {
+	id: 100, 
+	name: "Matheus Fidelis", 
+	email: "msfidelis01@gmail.com",
+	password: "xupisco"
+}
+
+const userDefault = {
+	id: 1, 
+	name: "Default User", 
+	email: "default@default.com",
+	password: "default"
+}
+
+before(done => {
+	model.sequelize.sync()
+	.then(() => {
+		console.log("Banco de teste configurado");
+		done();
+	});
+});
+
+after(done => {
+	model.User.destroy({
+		where: {}
+	}).then(() => {
+		console.log("Banco de teste zerado");
+		done();
+	});
+});
+
 describe('Testes de integração', () => {
-
-	'use strict';
-
-	const config = require('../../server/config/config')();
-	const UserModel = require('../../server/models');
 
 	let id;
 	let token;
-
-	const userTest = {
-		id: 100, 
-		name: "Matheus Fidelis", 
-		email: "msfidelis01@gmail.com",
-		password: "xupisco"
-	}
-
-	const userDefault = {
-		id: 1, 
-		name: "Default User", 
-		email: "default@default.com",
-		password: "default"
-	}
-
+		
 	before((done) => {
 
-		UserModel.User.destroy({
+		model.User.destroy({
 			where: {}
 		}).then(() => {
-			return UserModel.User.create(userDefault);
+			return model.User.create(userDefault);
 		}).then(user => {
-			UserModel.User.create(userTest)
+			model.User.create(userTest)
 			.then(() => {
 				token = jwt.encode({id: user.id}, config.secret);
 				done();

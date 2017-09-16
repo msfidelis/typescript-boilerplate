@@ -1,27 +1,51 @@
 import { testDouble, expect } from './config/helpers';
 import User from '../../server/modules/User/service';
 
+const model = require('../../server/models');
+
+const defaultUser = {
+	id: 1, 
+	name: 'Default  User',
+	email: 'default@default.com',
+	password: '1234'
+};
+
+before(done => {
+	model.sequelize.sync()
+	.then(() => {
+		console.log("Banco de teste configurado");
+		done();
+	});
+});
+
+
 describe('Testes Unitários do Controller', () => {
 
 	const config = require('../../server/config/config');
 	const UserModel = require('../../server/models');
 
-	before((done) => {
+	beforeEach(done => {
 		
-		UserModel.User.destroy({
+		//UserModel
+		model.User.destroy({
 			where: {}
 		}).then(() => {
-			done();
-		})
-		
+	
+			model.User.create(defaultUser)
+			.then(() => {
+				done();
+			});
+	
+		});
 	});
+		
 
 	describe('[C]reate', () => {
 
 		it('Deve criar um novo usuário', () => {
 
 			const novoUsuario = {
-				id: 1, 
+				id: 2, 
 				name: 'Novo Usuário',
 				email: 'email@email.com',
 				password: '1234'
@@ -59,7 +83,7 @@ describe('Testes Unitários do Controller', () => {
 		});
 
 		it('Deve retornar um registro baseado no email passado', () => {
-			return User.getByEmail('email@email.com').then(data => {
+			return User.getByEmail(defaultUser.email).then(data => {
 				expect(data).to.have.all.keys(
 					['email', 'id', 'name', 'password']
 				);
